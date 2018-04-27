@@ -271,10 +271,10 @@ public class SearchServiceImpl implements SearchService {
 
 实际效果如下图：
 
-!()[https://github.com/Jianfu-She/NoteMe/blob/master/pic/Solr入门-4.png]
+![](https://github.com/Jianfu-She/NoteMe/blob/master/pic/Solr入门-4.png)
 
-!()[https://github.com/Jianfu-She/NoteMe/blob/master/pic/Solr入门-5.png]
+![](https://github.com/Jianfu-She/NoteMe/blob/master/pic/Solr入门-5.png)
 
-!()[https://github.com/Jianfu-She/NoteMe/blob/master/pic/Solr入门-6.png]
+![](https://github.com/Jianfu-She/NoteMe/blob/master/pic/Solr入门-6.png)
 
-!()[https://github.com/Jianfu-She/NoteMe/blob/master/pic/Solr入门-7.png]
+![](https://github.com/Jianfu-She/NoteMe/blob/master/pic/Solr入门-7.png)
