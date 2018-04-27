@@ -2,8 +2,6 @@
 
 在阿里云上租了服务器，顺便记录下Centos7.2搭建JavaWeb环境的全过程。
 
-<!--more-->
-
 ## 1 工具
 [Xshell](https://www.netsarang.com/products/xsh_overview.html)
 [Xftp](https://www.netsarang.com/products/xfp_overview.html)
