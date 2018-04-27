@@ -5,28 +5,28 @@
 
 ## 1 文件上传下载原理
 ### 1.1 上传原理
-在TCP/IP中，最早出现的文件上传机制是FTP。它是将文件由客户端发送到服务器端的标准机制。但是在jsp编程中不能使用FTP来上传文件，这是由jsp运行机制决定的。
+在TCP/IP中，最早出现的文件上传机制是FTP。它是将文件由客户端发送到服务器端的标准机制。但是在jsp编程中不能使用FTP来上传文件，这是由jsp运行机制决定的。<br/>
 
-在jsp中，可行的方案是通过为表单元素设置`Method="post"`和`enctype="multipart/form-data"`属性，让表单提交的数据以二进制编码的方式提交，在接收此请求的Servlet中用二进制流来获取内容，就可以取得上传文件的内容，从而实现文件的上传。
+在jsp中，可行的方案是通过为表单元素设置`Method="post"`和`enctype="multipart/form-data"`属性，让表单提交的数据以二进制编码的方式提交，在接收此请求的Servlet中用二进制流来获取内容，就可以取得上传文件的内容，从而实现文件的上传。<br/>
 
-表单ENCTYPE属性
-- `application/x-www-form-urlencoded`
-  这是默认编码方式，它只处理表单域里的value属性值，采用这种编码方式的表单会将表单域的值处理成URL编码方式。
-- `multipart/form-data`
-  这种编码方式的表单会以二进制流的方式来处理表单数据，这种编码方式会把文件域指定文件的内容也封装到请求参数里。
-- `text/plain`
-  这种方式主要适用于直接通过表单发送邮件的方式。
+表单ENCTYPE属性 <br/>
+- `application/x-www-form-urlencoded` <br/>
+  这是默认编码方式，它只处理表单域里的value属性值，采用这种编码方式的表单会将表单域的值处理成URL编码方式。<br/>
+- `multipart/form-data`<br/>
+  这种编码方式的表单会以二进制流的方式来处理表单数据，这种编码方式会把文件域指定文件的内容也封装到请求参数里。<br/>
+- `text/plain`<br/>
+  这种方式主要适用于直接通过表单发送邮件的方式。<br/>
 
 ### 1.2 下载原理
-1）需要通过`HttpServletResponse.setContentType`方法设置Content-Type头字段的值，以激活某个程序来处理浏览器无法使用的MIME类型，例如，"application/octet-stream"或"application/x-msdownload"等
-2）需要通过`HttpServletResponse.setHeader`方法设置Content-Disposition头的值为"attachment;filename=文件名"
-3）读取下载文件，调用`HttpServletResponse.getOutputStram`方法返回的ServletOutputStream对象来向客户端写入附件文件内容
+1）需要通过`HttpServletResponse.setContentType`方法设置Content-Type头字段的值，以激活某个程序来处理浏览器无法使用的MIME类型，例如，"application/octet-stream"或"application/x-msdownload"等<br/>
+2）需要通过`HttpServletResponse.setHeader`方法设置Content-Disposition头的值为"attachment;filename=文件名"<br/>
+3）读取下载文件，调用`HttpServletResponse.getOutputStram`方法返回的ServletOutputStream对象来向客户端写入附件文件内容<br/>
 
 ## 2 使用Servlet实现文件的上传下载
 ### 2.1文件上传步骤
-1）获取request当中的流信息，保存到临时文件
-2）从临时文件当中得到上传的文件名，以及文件内容起止位置
-3）根据文件起止位置，读取上传文件内容，保存到本地
+1）获取request当中的流信息，保存到临时文件<br/>
+2）从临时文件当中得到上传的文件名，以及文件内容起止位置<br/>
+3）根据文件起止位置，读取上传文件内容，保存到本地<br/>
 ```java 
 protected void doPost(HttpServletRequest request, HttpServletResponse response)
 throws ServletException, IOException {
@@ -104,9 +104,9 @@ throws ServletException, IOException {
 ```
 
 ### 2.2 文件下载步骤
-1）获取目标文件的地址及文件名
-2）设置响应类型及响应头
-3）获取目标文件的输出流，输出流写入文件内容
+1）获取目标文件的地址及文件名<br/>
+2）设置响应类型及响应头<br/>
+3）获取目标文件的输出流，输出流写入文件内容<br/>
 ```java 
 protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 throws ServletException, IOException {
@@ -137,7 +137,7 @@ throws ServletException, IOException {
 ```
 
 ### 2.3 前端
-前端主要代码
+前端主要代码<br/>
 ```html
 <form action="upload" method="post" enctype="multipart/form-data">
         请选择图片：<input id="myfile" name="myfile" type="file"/>
@@ -147,9 +147,9 @@ throws ServletException, IOException {
 ```
 
 ### 2.4 问题
-以上就是使用Servlet实现的文件上传下载，但是有一个很明显的问题，就是在找文件名的时候，不同的浏览器会返回不同的结果。上面的代码只适用于Chrome，换成Edge就会报“文件名、目录名或卷标语法不正确”的错误。
-比如，有一个文本文件，内容为“Hello”。
-通过Edge上传，其内容为
+以上就是使用Servlet实现的文件上传下载，但是有一个很明显的问题，就是在找文件名的时候，不同的浏览器会返回不同的结果。上面的代码只适用于Chrome，换成Edge就会报“文件名、目录名或卷标语法不正确”的错误。<br/>
+比如，有一个文本文件，内容为“Hello”。<br/>
+通过Edge上传，其内容为<br/>
 ```
 -----------------------------7e0d49540942
 Content-Disposition: form-data; name="myfile"; filename="C:\Users\SJF\Desktop\1.txt"
@@ -167,15 +167,15 @@ Content-Type: text/plain
 Hello
 ------WebKitFormBoundaryPGdMM9UCDlcxFOfW--
 ```
-filename的不同导致了上面那段代码无法复用，同时该代码无法支持批量文件上传下载、不能限制上传文件大小及类型。总的来说，上述代码理论意义大于实际意义，通过这些代码我们可以理清文件上传下载的思路。更为常用的方法是通过fileupload插件进行文件的上传下载。
+filename的不同导致了上面那段代码无法复用，同时该代码无法支持批量文件上传下载、不能限制上传文件大小及类型。总的来说，上述代码理论意义大于实际意义，通过这些代码我们可以理清文件上传下载的思路。更为常用的方法是通过fileupload插件进行文件的上传下载。<br/>
 
 ## 3 使用FileUpload实现文件的上传下载 
-直接看[这篇博客](http://www.cnblogs.com/xdp-gacl/p/4200090.html)就好。
+直接看[这篇博客](http://www.cnblogs.com/xdp-gacl/p/4200090.html)就好。<br/>
 
 ## 4 文件存储的组织方式  
-当上传的文件较多，同时硬件条件不足以支持分布式文件系统的情况下，使用hash算法打散存储是一个可行的方案。
+当上传的文件较多，同时硬件条件不足以支持分布式文件系统的情况下，使用hash算法打散存储是一个可行的方案。<br/>
 
-首先定义一个类，用于存储网络文件到本地，建立起合适的文件组织结构，并提供web访问接口。该类命名为FileManager.java,首先定义类的构造方式，与类的私有变量等。
+首先定义一个类，用于存储网络文件到本地，建立起合适的文件组织结构，并提供web访问接口。该类命名为FileManager.java,首先定义类的构造方式，与类的私有变量等。<br/>
 ```java 
 public class FileManager {
     public static final String ERROR = "ERROR";
@@ -194,9 +194,9 @@ public class FileManager {
     }
 }
 ```
-采用固定的文件夹来存储文件，此处是指tomcat/webapps/[war包名]/file。其中file是指我们另外部署在tomcat上的一个项目（一个Hello word就足够了）。程序在本地调试的时候，记得采用war包形式，同时部署file项目。
+采用固定的文件夹来存储文件，此处是指tomcat/webapps/[war包名]/file。其中file是指我们另外部署在tomcat上的一个项目（一个Hello word就足够了）。程序在本地调试的时候，记得采用war包形式，同时部署file项目。<br/>
 
-再就是存储文件的组织方式了，为了不使单个文件夹下的文件数目过多，采用文件名的哈希值的后16位构建深度为4的文件夹结构来存储各类文件。原则上，此处饱和情况下可创建2^16个子文件夹用于存储文件。根据文件名构建文件存储路径的方法代码如下：
+再就是存储文件的组织方式了，为了不使单个文件夹下的文件数目过多，采用文件名的哈希值的后16位构建深度为4的文件夹结构来存储各类文件。原则上，此处饱和情况下可创建2^16个子文件夹用于存储文件。根据文件名构建文件存储路径的方法代码如下：<br/>
 ```java 
 private String getPath(String filename) {
     try{
@@ -221,7 +221,7 @@ private String getPath(String filename) {
     }
 }
 ```
-由于FileUpload插件读取的web文件可获得一个InputStream，此处，传入该InputStream的输入流，将文件存储到上一步构建的子文件夹下：
+由于FileUpload插件读取的web文件可获得一个InputStream，此处，传入该InputStream的输入流，将文件存储到上一步构建的子文件夹下：<br/>
 ```java 
 public String save(String filename, String ext, InputStream in) 
 throws IOException {
@@ -248,7 +248,7 @@ throws IOException {
     }
 }
 ```
-同时，我们需要为存储在服务器上的文件提供访问链接。如下方法中，根据存储规则，由文件名计算出文件的访问路径，而不是去遍历文件夹，这种方式便显得尤为高效。
+同时，我们需要为存储在服务器上的文件提供访问链接。如下方法中，根据存储规则，由文件名计算出文件的访问路径，而不是去遍历文件夹，这种方式便显得尤为高效。<br/>
 ```java 
 public String getFileURI(String filename, String ext) {
     int hashcode = filename.hashCode();
@@ -266,7 +266,7 @@ public String getFileURI(String filename, String ext) {
     }
 }
 ```
-另外，在web Controller层，利用fileupload插件获取前端上传文件form各输入控件信息的代码如下：
+另外，在web Controller层，利用fileupload插件获取前端上传文件form各输入控件信息的代码如下：<br/>
 ```java 
 @RequestMapping(value = "/file")
 public void file (HttpServletRequest request,HttpServletResponse response) 
@@ -377,5 +377,5 @@ throws IOException{
 ```
 
 参考：
-[JavaWeb学习总结(五十)——文件上传和下载](http://www.cnblogs.com/xdp-gacl/p/4200090.html)
-[java web --fileupload插件网页文件管理](http://blog.csdn.net/u013248535/article/details/52326489)
+[JavaWeb学习总结(五十)——文件上传和下载](http://www.cnblogs.com/xdp-gacl/p/4200090.html) <br/>
+[java web --fileupload插件网页文件管理](http://blog.csdn.net/u013248535/article/details/52326489) <br/>
