@@ -1,25 +1,20 @@
----
-title: Centos7下搭建JavaWeb环境
-date: 2016-09-04 15:58:57
-categories: [技术,Linux,环境搭建]
-tags: [Linux,FTP]
----
+# Centos7下搭建JavaWeb环境
 
 在阿里云上租了服务器，顺便记录下Centos7.2搭建JavaWeb环境的全过程。
 
 <!--more-->
 
-# 1 工具
+## 1 工具
 [Xshell](https://www.netsarang.com/products/xsh_overview.html)
 [Xftp](https://www.netsarang.com/products/xfp_overview.html)
 
-# 2 连接到阿里云服务器 
+## 2 连接到阿里云服务器 
 通过Xshell连接到阿里云服务器，具体不表。
 
-# 3 上传安装文件 
+## 3 上传安装文件 
 通过Xftp上传相关文件，包括[JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html)，[tomcat](http://tomcat.apache.org/)，以及测试用的war包、sql文件。
 
-# 4 安装JDK
+## 4 安装JDK
 1）在“/”目录下新建好软件安装的目录，这里把tomcat安装的目录也提前建好。
 ```shell
 cd /
@@ -58,7 +53,7 @@ java -version
 echo $PATH 
 ```
 
-# 5 安装tomcat 
+## 5 安装tomcat 
 1）将tomcat解压到对应目录
 ```shell
 tar zxvf apache-tomcat-8.0.36.tar.gz -C /usr/java/tomcat
@@ -135,7 +130,7 @@ WantedBy=multi-user.target
 
 关于Tomcat开机启动的配置还有[另外一种方案](http://jingyan.baidu.com/article/6525d4b1382f0aac7d2e9421.html)
 
-# 6 下载并安装MySQL 
+## 6 下载并安装MySQL 
 1）下载并安装MySQL
 ```shell
 rpm -ivh http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm  
@@ -167,14 +162,14 @@ mysql> SET PASSWORD = PASSWORD('new password');
 ```
 注意：新密码必须 **大小写+符号** 全部包含，不然会提示密码不符合规则
 
-# 7 部署war包
+## 7 部署war包
 通过Xftp将war包上传到/usr/java/tomcat/apache-tomcat-8.0.36/webapps下，然后进入到tomcat的bin目录执行如下命令启动tomat
 ```shell
 ./startup.sh 
 ```
 启动tomcat成功后，即可访问部署的项目。
 
-# 8 把sql文件导入数据库 
+## 8 把sql文件导入数据库 
 1）在命令行输入用户名及密码，进入数据库
 ```shell 
 mysql -uroot -p 
@@ -191,7 +186,7 @@ source /usr/java/storage.sql;
 即可完成sql文件的导入 
 此时此刻，部署到云服务的项目就可以正常工作啦！
 
-# 9 关于防火墙 
+## 9 关于防火墙 
 安装好tomcat后可能仍无法正常访问，问题出在防火墙上，相应的端口被防火墙屏蔽掉了。CentOS7关于防火墙的命令和以前的版本有较大区别，特此记录：
 查看已经开放的端口：
 ```shell
@@ -212,7 +207,7 @@ systemctl stop firewalld.service #停止firewall
 systemctl disable firewalld.service #禁止firewall开机启动
 ```
 
-# 10 修改tomcat访问端口为80端口 
+## 10 修改tomcat访问端口为80端口 
 ```shell 
 cd /usr/java/tomcat/apache-tomcat-8.0.36/conf
 vi server.xml 
@@ -230,7 +225,7 @@ cd ../bin
 ./startup.sh
 ```
 
-# 11 FTP服务器的安装配置 
+## 11 FTP服务器的安装配置 
 并非搭建JavaWeb环境必需，按需使用。
 1）在安装前查看是否已安装vsftpd
 ```shell
@@ -322,12 +317,12 @@ setsebool -P ftpd_full_access on
 16）完成
 现在可以通过Xftp的FTP连接服务器。
 
-# 12 生产环境下的MySQL与Tomcat 
+## 12 生产环境下的MySQL与Tomcat 
 推荐两篇博文：
 [CentOS7+Tomcat 生产系统部署](http://blog.csdn.net/smstong/article/details/39958675)
 [ MySQL添加用户、删除用户与授权](http://blog.csdn.net/bobo_93/article/details/51737156)
 
-# 13 挂载数据盘 
+## 13 挂载数据盘 
 我们默认购买的Linux 阿里云服务器ECS系统盘是40GB的，对于一般的网站也足够使用。如果自己的项目数据比较大，在开始的时候可以增加数据盘，但是必须在安装系统之前对数据盘挂载到指定的目录，这样我们的项目站点才可以放在数据盘中，合理利用数据盘，即便在系统重装，不会影响到网站的数据文件。
 下面推荐两篇文章，详细介绍了如何在阿里云服务器中挂载数据盘：
 [老左博客](http://www.laozuo.org/5080.html)
